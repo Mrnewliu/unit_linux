@@ -80,12 +80,13 @@ void show_file_info(char* filename,struct stat* buf)
 {
 	char modestr[11];
 	//printf("mode:%o ",buf->st_mode);
-	printf("%4d ", buf->st_nlink);
+	mode_to_letters(buf->st_mode, modestr);
+	printf("%4d ", (int)buf->st_nlink);
 	printf("%-8s ", uid_to_name(buf->st_uid));
 	printf("%-8s ", gid_to_name(buf->st_gid));
 	printf("%8ld ", (long)buf->st_size);
 	//printf(" modtime:%s",ctime( & buf->st_ctim.tv_sec ));
-	printf(" name:%8s ",filename);
+	printf(" name:%12s ",filename);
 	printf(" modtime:%s",4+ctime( & buf->st_ctim.tv_sec ));
 
 	
@@ -107,7 +108,7 @@ char* gid_to_name( gid_t gid )
 
 void mode_to_letters( int mode, char str[])
 {
-	strcpy(str,"---------");	
+	strcpy(str,"----------");	
 	if( S_ISDIR(mode))
 		str[0] = 'd';
 	if( S_ISCHR(mode))
@@ -137,7 +138,7 @@ void mode_to_letters( int mode, char str[])
 	if( mode & S_IXUSR)
 		str[9] = 'x';
 
-
+	printf("%s ", str);
 
 }
 
